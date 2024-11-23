@@ -27,6 +27,8 @@ public class AuthService {
         if(userOptional.isPresent()){ 
             User user = userOptional.get(); 
             if(passwordEncoder.matches(password, user.getPassword())){ 
+                //applies hash to password and compares it to the password in database if the hash patterns match then the password is right
+                
                 return "Mock Token";
             }
         }
