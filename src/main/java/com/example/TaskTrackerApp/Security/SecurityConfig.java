@@ -35,11 +35,11 @@ public AuthenticationManager authManager(HttpSecurity http,
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-            http.csrf(csrf -> csrf.disable())
+            http.csrf(csrf -> csrf.disable()) //disable csrf since this application is stateless
                 .authorizeHttpRequests(auth -> auth
 
-                .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/api/auth/**").permitAll() //acessible without authentication so login and register
+                .anyRequest().authenticated()//any other request requires authentication once
 
                 );
                 

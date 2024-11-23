@@ -19,7 +19,7 @@ public class AuthController {
 
     }
 
-    @PostMapping
+    @PostMapping("/login")
     public String login(@RequestParam String Username, String Password){ 
         String token = authService.login(Username, Password);
 

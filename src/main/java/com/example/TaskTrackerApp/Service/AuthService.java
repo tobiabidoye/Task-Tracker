@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.TaskTrackerApp.Model.User;
 import com.example.TaskTrackerApp.Repository.UserRepository;
+import com.example.TaskTrackerApp.Security.JwtTokenProvider;
+
+
+
 import java.util.Optional;
 
 
@@ -14,7 +18,9 @@ public class AuthService {
     private UserRepository userRepository; 
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder; 
+    private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtTokenProvider tokenProvider;  
 
     public void registerUser(String Username, String Password, String role){ 
         String hashedPassword = passwordEncoder.encode(Password); //hash password to make sure it is encrypted in db
@@ -28,8 +34,7 @@ public class AuthService {
             User user = userOptional.get(); 
             if(passwordEncoder.matches(password, user.getPassword())){ 
                 //applies hash to password and compares it to the password in database if the hash patterns match then the password is right
-                
-                return "Mock Token";
+                return tokenProvider.GenerateToken(username, user.getRole());
             }
         }
         throw new RuntimeException("Invalid username or password");
